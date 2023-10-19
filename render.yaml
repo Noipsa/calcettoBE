@@ -1,7 +1,0 @@
-services:
-  - name: spring-boot-app
-    env:
-      - key: SERVER_PORT
-        value: "8080" # Port on which your Spring Boot app listens
-    buildCommand: ./mvnw package # Adjust for Gradle if needed
-    startCommand: java -jar target/*.jar
