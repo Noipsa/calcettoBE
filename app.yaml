@@ -1,9 +1,5 @@
-runtime: java
-env: flex
+runtime: java17
+env: standard
 
-runtime_config:
-  jdk: openjdk17
-
-handlers:
-url: /.*
-script: 
+manual_scaling:
+  instances: 1
