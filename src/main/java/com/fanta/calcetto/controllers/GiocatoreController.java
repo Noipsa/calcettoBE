@@ -2,6 +2,7 @@ package com.fanta.calcetto.controllers;
 
 import com.fanta.calcetto.controllers.requests.AcquistoGiocatoriRequest;
 import com.fanta.calcetto.controllers.requests.AggiornaFormazioneRequest;
+import com.fanta.calcetto.controllers.requests.EliminaGiocatoreRequest;
 import com.fanta.calcetto.entities.Giocatore;
 import com.fanta.calcetto.entities.Partita;
 import com.fanta.calcetto.entities.Squadra;
@@ -65,6 +66,33 @@ public class GiocatoreController {
         squadraService.putSquadra(squadra);
 
         return giocatoriSquadra;
+    }
+
+    @PutMapping("/eliminaTitolare/{id}")
+    @ResponseBody
+    public void deleteGiocatori(
+            @RequestBody EliminaGiocatoreRequest request
+    ) {;
+
+        Giocatore giocatore = request.getGiocatore();
+
+        //per aver i giocatori aggiornati
+        Optional<Utente> utente = utenteService.getUserById(request.getId_utente());
+
+        Squadra squadra = utente.get().getId_squadra();
+
+        Set<Giocatore> giocatoriSquadra = squadra.getGiocatori_acquistati();
+
+        List<Giocatore> giocatoreGiaPresente = giocatoriSquadra.stream().filter((g -> g.getId_giocatore() == giocatore.getId_giocatore())).toList();
+        if (!giocatoreGiaPresente.isEmpty()) {
+            giocatoriSquadra.remove(giocatoreGiaPresente.get(0));
+            squadra.setCrediti_residui(squadra.getCrediti_residui() + giocatore.getCosto());
+
+            squadra.setNumero_giocatori_acquistati(squadra.getNumero_giocatori_acquistati() - 1);
+
+            squadra.setGiocatori_acquistati(giocatoriSquadra);
+            squadraService.putSquadra(squadra);
+        }
     }
 
     @PostMapping("/sell")
