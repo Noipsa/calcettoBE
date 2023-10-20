@@ -56,6 +56,8 @@ public class GiocatoreController {
             throw new Exception("Giocatore gia Presente");
         } else if (giocatoriSquadra.size() == 12) {
             throw new Exception("Massimo Numero Giocatori");
+        } if (isMaxGiocatoriRuolo(giocatoriSquadra, giocatore.getEruolo())) {
+            throw new Exception("Massimo Numero Giocatori Stesso ruolo");
         }
 
         giocatoriSquadra.add(giocatore);
@@ -66,6 +68,22 @@ public class GiocatoreController {
         squadraService.putSquadra(squadra);
 
         return giocatoriSquadra;
+    }
+
+    private boolean isMaxGiocatoriRuolo(Set<Giocatore> giocatoriSquadra, String eruolo) {
+        switch (eruolo) {
+            case "POR":
+                return countGiocatoriRuolo(giocatoriSquadra, eruolo) == 2;
+            case "DIF":
+                return countGiocatoriRuolo(giocatoriSquadra, eruolo) == 6;
+            case "ATT":
+                return countGiocatoriRuolo(giocatoriSquadra, eruolo) == 4;
+        }
+        return false;
+    }
+
+    private int countGiocatoriRuolo(Set<Giocatore> giocatoriSquadra, String ruolo) {
+            return (int) giocatoriSquadra.stream().filter(giocatore -> giocatore.getEruolo().equals(ruolo)).count();
     }
 
     @PutMapping("/eliminaTitolare/{id}")

@@ -28,4 +28,7 @@ public class ValutazionePartita {
 
     @Column(name = "valutazione")
     private long valutazione;
+
+    @Column(name = "id_giornata")
+    private long id_giornata;
 }

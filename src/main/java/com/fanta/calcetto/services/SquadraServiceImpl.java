@@ -8,6 +8,7 @@ import com.fanta.calcetto.services.serviceInterface.SquadraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,5 +35,10 @@ public class SquadraServiceImpl implements SquadraService {
     @Override
     public Squadra putSquadra(Squadra squadra) {
         return squadraRepository.save(squadra);
+    }
+
+    @Override
+    public List<Squadra> findAll() {
+        return squadraRepository.findAll();
     }
 }

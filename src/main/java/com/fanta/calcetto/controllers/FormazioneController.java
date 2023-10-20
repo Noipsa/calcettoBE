@@ -2,12 +2,10 @@ package com.fanta.calcetto.controllers;
 
 import com.fanta.calcetto.controllers.requests.AggiornaFormazioneRequest;
 import com.fanta.calcetto.controllers.requests.GiocatoriRequest;
+import com.fanta.calcetto.controllers.responses.ClassificaResponse;
 import com.fanta.calcetto.controllers.responses.FormazioneResponse;
 import com.fanta.calcetto.entities.*;
-import com.fanta.calcetto.services.serviceInterface.RosaService;
-import com.fanta.calcetto.services.serviceInterface.SquadraService;
-import com.fanta.calcetto.services.serviceInterface.TitolariSquadraService;
-import com.fanta.calcetto.services.serviceInterface.UtentiService;
+import com.fanta.calcetto.services.serviceInterface.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +26,12 @@ public class FormazioneController {
 
     @Autowired
     public TitolariSquadraService titolariSquadraService;
+
+    @Autowired
+    public ValutazionePartitaService valutazionePartitaService;
+
+    @Autowired
+    public PartitaService partitaService;
 
     @GetMapping("/all")
     @ResponseBody
@@ -117,5 +121,42 @@ public class FormazioneController {
         Utente utente = utentiService.getUserById(id).get();
         Squadra squadra = utente.getId_squadra();
         return squadra.getGiocatori_acquistati();
+    }
+
+    @GetMapping("/classifica")
+    @ResponseBody
+    public List<ClassificaResponse> getClassifica() {
+        List<ClassificaResponse> classificaResponses = new ArrayList<>();
+        long comparatore = -1;
+        List<Squadra> squadre = squadraService.findAll();
+        long giornataAttuale = partitaService.getGiornataAttuale();
+        for (Squadra squadra : squadre) {
+            long sommaPunteggio = 0;
+            List<TitolariSquadra> titolariSquadra = titolariSquadraService.getTitolariSquadraById(squadra.getId_squadra());
+            for (TitolariSquadra giocatore : titolariSquadra) {
+                long id_titolare = giocatore.getGiocatori_titolari().getId_giocatore();
+                List<ValutazionePartita> valutazionePartite = valutazionePartitaService.getValutazioneByMinIdGiornataAndIdGiocatore(giornataAttuale, id_titolare);
+
+                for (ValutazionePartita valutazione: valutazionePartite) {
+                    sommaPunteggio += valutazione.getValutazione();
+                }
+
+            }
+            ClassificaResponse classificaResponse = new ClassificaResponse();
+            classificaResponse.setPunteggio(sommaPunteggio);
+            classificaResponse.setNome(squadra.getNome_squadra());
+            if (comparatore == -1) {
+                comparatore = sommaPunteggio;
+                classificaResponses.add(classificaResponse);
+            } else if (comparatore != -1 && comparatore < sommaPunteggio) {
+                comparatore = sommaPunteggio;
+                classificaResponses.add(0, classificaResponse);
+            } else if (comparatore != -1 && comparatore > sommaPunteggio) {
+                comparatore = sommaPunteggio;
+                classificaResponses.add( classificaResponse);
+            }
+        }
+
+        return classificaResponses;
     }
 }
