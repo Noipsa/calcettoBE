@@ -12,6 +12,5 @@ import lombok.Setter;
 @Table(name = "giornata")
 public class Giornata {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id_giornata;
 }

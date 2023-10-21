@@ -10,4 +10,7 @@ public interface GiornataRepository extends JpaRepository<Giornata, Long> {
 
     @Query(value = "select max(id_giornata) from giornata", nativeQuery = true)
     long getMax();
+
+    @Query(value = "select case when count(id_giornata) > 0 then true else false end from giornata", nativeQuery = true)
+    Long exists();
 }

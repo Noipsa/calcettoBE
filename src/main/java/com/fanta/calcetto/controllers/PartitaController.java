@@ -9,6 +9,7 @@ import com.fanta.calcetto.entities.Giocatore;
 import com.fanta.calcetto.entities.Partita;
 import com.fanta.calcetto.entities.Squadra;
 import com.fanta.calcetto.entities.Utente;
+import com.fanta.calcetto.services.serviceInterface.GiornataService;
 import com.fanta.calcetto.services.serviceInterface.PartitaService;
 import com.fanta.calcetto.services.serviceInterface.SquadraService;
 import com.fanta.calcetto.services.serviceInterface.TitolariSquadraService;
@@ -35,10 +36,19 @@ public class PartitaController {
     @Autowired
     public SquadraService squadraService;
 
+    @Autowired
+    public GiornataService giornataService;
+
     @GetMapping("/all")
     @ResponseBody
     public List<Partita> getAllMatchs() {
         return partitaService.findAll();
+    }
+
+    @PostMapping("/calcolaGiornata")
+    @ResponseBody
+    public void calcolaGiornata() {
+        giornataService.calcolaGiornata();
     }
 
     @GetMapping("/giocatoriPartita/{id}")
