@@ -145,7 +145,6 @@ public class FormazioneController {
             ClassificaResponse classificaResponse = new ClassificaResponse();
             classificaResponse.setPunteggio(sommaPunteggio);
             classificaResponse.setNome(squadra.getNome_squadra());
-            classificaResponse.setIdSquadra(squadra.getId_squadra());
             if (comparatore == -1) {
                 comparatore = sommaPunteggio;
                 classificaResponses.add(classificaResponse);

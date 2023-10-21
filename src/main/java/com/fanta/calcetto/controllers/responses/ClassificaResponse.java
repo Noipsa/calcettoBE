@@ -10,5 +10,4 @@ import lombok.Setter;
 public class ClassificaResponse {
     long punteggio;
     String nome;
-    long idSquadra;
 }
