@@ -3,6 +3,7 @@ package com.fanta.calcetto.controllers;
 import com.fanta.calcetto.controllers.requests.AcquistoGiocatoriRequest;
 import com.fanta.calcetto.controllers.requests.AggiornaFormazioneRequest;
 import com.fanta.calcetto.controllers.requests.EliminaGiocatoreRequest;
+import com.fanta.calcetto.controllers.requests.InserisciGiocatoreRequest;
 import com.fanta.calcetto.entities.Giocatore;
 import com.fanta.calcetto.entities.Partita;
 import com.fanta.calcetto.entities.Squadra;
@@ -11,6 +12,7 @@ import com.fanta.calcetto.services.serviceInterface.GiocatoreService;
 import com.fanta.calcetto.services.serviceInterface.PartitaService;
 import com.fanta.calcetto.services.serviceInterface.SquadraService;
 import com.fanta.calcetto.services.serviceInterface.UtentiService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -145,4 +147,23 @@ public class GiocatoreController {
 
         return giocatoriSquadra;
     }
+
+    @PutMapping("/inserisciGiocatore")
+    @ResponseBody
+    public void inserisciGiocatore(
+            @NotNull @RequestBody InserisciGiocatoreRequest request
+    ) throws Exception {
+        Objects.requireNonNull(request.getNomeGiocatore());
+        Objects.requireNonNull(request.getRuolo());
+
+        String nomeGiocatore = request.getNomeGiocatore();
+        long valutazione = request.getValutazione();
+        String ruolo = request.getRuolo();
+
+        long nextId = giocatoreService.getMax()+1;
+        giocatoreService.putGiocatore(valutazione,nextId,ruolo,nomeGiocatore);
+    }
+
+
+
 }

@@ -19,4 +19,16 @@ public class GiocatoreServiceImpl implements GiocatoreService {
     public List<Giocatore> findAll() {
         return giocatoreRepository.findAll();
     }
+
+    @Override
+    public void putGiocatore(long costo,long maxId,String ruolo, String nomeGiocatore) {
+        giocatoreRepository.putGiocatore(costo, maxId,ruolo, nomeGiocatore);
+    }
+
+    @Override
+    public long getMax() {
+        return giocatoreRepository.getMax();
+    }
+
+
 }
