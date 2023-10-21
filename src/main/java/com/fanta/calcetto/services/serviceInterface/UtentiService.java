@@ -12,4 +12,5 @@ public interface UtentiService {
     public Optional<Utente> getUserById(long id);
     public List<Utente> getAllUsers();
     public void autorizzaUtente(long id);
+    public void eliminaUtente(long id);
 }

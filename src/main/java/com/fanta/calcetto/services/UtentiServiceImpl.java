@@ -42,4 +42,10 @@ public class UtentiServiceImpl implements UtentiService {
         utentiRepository.save(utente);
     }
 
+    @Override
+    public void eliminaUtente(long id) {
+        Utente utente = utentiRepository.getById(id);
+        utentiRepository.delete(utente);
+    }
+
 }

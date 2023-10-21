@@ -520,7 +520,9 @@ public class MainController {
     @GetMapping("/utenti/all")
     @ResponseBody
     public List<Utente> getAllUsers() {
-        return utentiService.getAllUsers();
+        List<Utente> users = utentiService.getAllUsers();
+        users.removeIf(utente -> utente.isBactive() || utente.getEmail().equals("s"));
+        return users;
     }
 
     @PutMapping("/utenti/autorizza/{id}")
@@ -529,5 +531,13 @@ public class MainController {
             @PathVariable long id
     ) {
         utentiService.autorizzaUtente(id);
+    }
+
+    @DeleteMapping("/utenti/elimina/{id}")
+    @ResponseBody
+    public void eliminaUtente(
+            @PathVariable long id
+    ) {
+        utentiService.eliminaUtente(id);
     }
 }
