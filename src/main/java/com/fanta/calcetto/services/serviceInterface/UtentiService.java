@@ -8,8 +8,8 @@ import java.util.Optional;
 public interface UtentiService {
 
     public void addUser(Utente utente);
-
     public List<Utente> getUsers(Utente utente);
-
     public Optional<Utente> getUserById(long id);
+    public List<Utente> getAllUsers();
+    public void autorizzaUtente(long id);
 }

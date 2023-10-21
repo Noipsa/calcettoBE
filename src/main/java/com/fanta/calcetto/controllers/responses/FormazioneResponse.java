@@ -7,11 +7,35 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
 public class FormazioneResponse {
     private List<Giocatore> portieri;
     private List<Giocatore> difensori;
     private List<Giocatore> attaccanti;
+
+    public FormazioneResponse() {
+    }
+
+    public List<Giocatore> getPortieri() {
+        return portieri;
+    }
+
+    public void setPortieri(List<Giocatore> portieri) {
+        this.portieri = portieri;
+    }
+
+    public List<Giocatore> getDifensori() {
+        return difensori;
+    }
+
+    public void setDifensori(List<Giocatore> difensori) {
+        this.difensori = difensori;
+    }
+
+    public List<Giocatore> getAttaccanti() {
+        return attaccanti;
+    }
+
+    public void setAttaccanti(List<Giocatore> attaccanti) {
+        this.attaccanti = attaccanti;
+    }
 }

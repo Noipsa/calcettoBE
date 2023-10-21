@@ -27,9 +27,8 @@ public class SquadraServiceImpl implements SquadraService {
     }
 
     @Override
-    public Squadra getSquadraByUserId(long id) {
-        Utente utente = utentiRepository.findById(id).get();
-        return squadraRepository.prendiById(utente.getId_squadra().getId_squadra());
+    public Optional<Squadra> getSquadraById(long id) {
+        return squadraRepository.findById(id);
     }
 
     @Override

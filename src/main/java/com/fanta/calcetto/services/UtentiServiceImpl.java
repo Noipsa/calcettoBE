@@ -30,4 +30,16 @@ public class UtentiServiceImpl implements UtentiService {
         return utentiRepository.findById(id);
     }
 
+    @Override
+    public List<Utente> getAllUsers() {
+        return utentiRepository.findAll();
+    }
+
+    @Override
+    public void autorizzaUtente(long id) {
+        Utente utente = utentiRepository.getById(id);
+        utente.setBactive(true);
+        utentiRepository.save(utente);
+    }
+
 }

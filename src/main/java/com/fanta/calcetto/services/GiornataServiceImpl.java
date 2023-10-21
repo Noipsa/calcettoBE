@@ -21,4 +21,6 @@ public class GiornataServiceImpl implements GiornataService {
             giornataRepository.save(new Giornata());
         }
     }
+
+
 }

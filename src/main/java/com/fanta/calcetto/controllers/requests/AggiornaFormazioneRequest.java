@@ -12,4 +12,6 @@ import lombok.Setter;
 public class AggiornaFormazioneRequest {
     private Rosa rosa;
     private Utente utente;
+
+
 }

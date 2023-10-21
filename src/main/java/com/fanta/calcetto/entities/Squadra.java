@@ -13,9 +13,6 @@ import lombok.Setter;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
 @Table(name = "squadra")
 public class Squadra {
 
@@ -52,6 +49,84 @@ public class Squadra {
     @OneToMany(mappedBy="seconda_squadra", cascade = {CascadeType.ALL})
     private Set<Partita> partite_seconda_squadra;
 
-    @OneToMany(mappedBy="id_squadra", cascade = {CascadeType.ALL})
-    private Set<Utente> utente_proprietario_squadra;
+    @Override
+    public String toString() {
+        return "Squadra{" +
+                "id_squadra=" + id_squadra +
+                ", id_formazione=" + id_formazione +
+                ", nome_squadra='" + nome_squadra + '\'' +
+                ", crediti_residui=" + crediti_residui +
+                ", giocatori_acquistati=" + giocatori_acquistati +
+                ", numero_giocatori_acquistati=" + numero_giocatori_acquistati +
+                ", partite_prima_squadra=" + partite_prima_squadra +
+                ", partite_seconda_squadra=" + partite_seconda_squadra +
+                '}';
+    }
+
+    public Squadra() {
+    }
+
+    public long getId_squadra() {
+        return id_squadra;
+    }
+
+    public void setId_squadra(long id_squadra) {
+        this.id_squadra = id_squadra;
+    }
+
+    public long getId_formazione() {
+        return id_formazione;
+    }
+
+    public void setId_formazione(long id_formazione) {
+        this.id_formazione = id_formazione;
+    }
+
+    public String getNome_squadra() {
+        return nome_squadra;
+    }
+
+    public void setNome_squadra(String nome_squadra) {
+        this.nome_squadra = nome_squadra;
+    }
+
+    public long getCrediti_residui() {
+        return crediti_residui;
+    }
+
+    public void setCrediti_residui(long crediti_residui) {
+        this.crediti_residui = crediti_residui;
+    }
+
+    public Set<Giocatore> getGiocatori_acquistati() {
+        return giocatori_acquistati;
+    }
+
+    public void setGiocatori_acquistati(Set<Giocatore> giocatori_acquistati) {
+        this.giocatori_acquistati = giocatori_acquistati;
+    }
+
+    public long getNumero_giocatori_acquistati() {
+        return numero_giocatori_acquistati;
+    }
+
+    public void setNumero_giocatori_acquistati(long numero_giocatori_acquistati) {
+        this.numero_giocatori_acquistati = numero_giocatori_acquistati;
+    }
+
+    public Set<Partita> getPartite_prima_squadra() {
+        return partite_prima_squadra;
+    }
+
+    public void setPartite_prima_squadra(Set<Partita> partite_prima_squadra) {
+        this.partite_prima_squadra = partite_prima_squadra;
+    }
+
+    public Set<Partita> getPartite_seconda_squadra() {
+        return partite_seconda_squadra;
+    }
+
+    public void setPartite_seconda_squadra(Set<Partita> partite_seconda_squadra) {
+        this.partite_seconda_squadra = partite_seconda_squadra;
+    }
 }

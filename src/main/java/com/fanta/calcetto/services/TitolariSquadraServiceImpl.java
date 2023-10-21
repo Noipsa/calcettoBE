@@ -26,21 +26,20 @@ public class TitolariSquadraServiceImpl implements TitolariSquadraService {
     @Override
     public void saveTitolariSquadra(Utente utente, Giocatore titolare) {
 
-        Squadra squadra = squadraService.getSquadraByUserId(utente.getId_utente());
+        Optional<Squadra> squadra = squadraService.getSquadraById(utente.getId_utente());
 
-        Set<Giocatore> giocatore = squadra.getGiocatori_acquistati();
+        Set<Giocatore> giocatore = squadra.get().getGiocatori_acquistati();
 
         Giocatore giocatoreTrovato = giocatore.stream().filter((g -> g.getId_giocatore() == titolare.getId_giocatore())).findAny().get();
 
-        Optional<TitolariSquadra> giocatoreGiaTitolare = titolariSquadraRepository.findByIdAndGiocatori(squadra.getId_squadra(), giocatoreTrovato.getId_giocatore());
+        Optional<TitolariSquadra> giocatoreGiaTitolare = titolariSquadraRepository.findByIdAndGiocatori(squadra.get().getId_squadra(), giocatoreTrovato.getId_giocatore());
 
         if (giocatoreGiaTitolare.isEmpty()) {
-            List<TitolariSquadra> titolariSquadraGiaPresenti = titolariSquadraRepository.findAllByIdSquadraTitolare(squadra.getId_squadra());
-            giocatoreTrovato.setId_titolari_squadra(titolariSquadraGiaPresenti);
+            List<TitolariSquadra> titolariSquadraGiaPresenti = titolariSquadraRepository.findAllByIdSquadraTitolare(squadra.get().getId_squadra());
 
             TitolariSquadra titolariSquadra = new TitolariSquadra();
-            titolariSquadra.setGiocatori_titolari(giocatoreTrovato);
-            titolariSquadra.setId_squadra(squadra.getId_squadra());
+            titolariSquadra.setId_giocatore(giocatoreTrovato.getId_giocatore());
+            titolariSquadra.setId_squadra(squadra.get().getId_squadra());
 
             titolariSquadraRepository.save(titolariSquadra);
         }
@@ -49,7 +48,7 @@ public class TitolariSquadraServiceImpl implements TitolariSquadraService {
     @Override
     public FormazioneResponse getTitolari(long id) {
 
-        Squadra squadra = squadraService.getSquadraByUserId(id);
+        Squadra squadra = squadraService.getSquadraById(id).get();
         Rosa rosa = rosaService.getRosaById(squadra.getId_formazione());
 
         List<TitolariSquadra> titolari = titolariSquadraRepository.findAllByIdSquadraTitolare(squadra.getId_squadra());
@@ -124,7 +123,7 @@ public class TitolariSquadraServiceImpl implements TitolariSquadraService {
         List<Giocatore> giocatori = new ArrayList<>();
         for (TitolariSquadra titolare : titolari) {
             giocatori.addAll(giocatoriAcquistati.stream().filter(giocatore ->
-                    giocatore.getId_giocatore() == titolare.getGiocatori_titolari().getId_giocatore() &&
+                    Objects.equals(giocatore.getId_giocatore(), titolare.getId_giocatore()) &&
                     giocatore.getEruolo().equals(ruolo)).toList());
 
         }

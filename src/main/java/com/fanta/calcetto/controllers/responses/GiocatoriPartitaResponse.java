@@ -9,10 +9,26 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
 public class GiocatoriPartitaResponse {
     TitolariModel titolari;
     List<GiocatoriModel> riserve;
+
+    public GiocatoriPartitaResponse() {
+    }
+
+    public TitolariModel getTitolari() {
+        return titolari;
+    }
+
+    public void setTitolari(TitolariModel titolari) {
+        this.titolari = titolari;
+    }
+
+    public List<GiocatoriModel> getRiserve() {
+        return riserve;
+    }
+
+    public void setRiserve(List<GiocatoriModel> riserve) {
+        this.riserve = riserve;
+    }
 }
