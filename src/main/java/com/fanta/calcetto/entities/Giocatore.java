@@ -15,7 +15,7 @@ import java.util.Set;
 public class Giocatore {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id_giocatore;
 
     @Column(name = "nome")
@@ -33,9 +33,13 @@ public class Giocatore {
     @Column(name = "eruolo")
     private String eruolo;
 
+    @Column(name = "id_squadra_ufficiale")
+    private long id_squadra_ufficiale;
+
     @ManyToMany(mappedBy = "giocatori_acquistati")
     @JsonIgnore
     private List<Squadra> squadre;
+
 
     @Override
     public String toString() {
@@ -46,6 +50,7 @@ public class Giocatore {
                 ", binfortunato=" + binfortunato +
                 ", bsqualificato=" + bsqualificato +
                 ", eruolo='" + eruolo + '\'' +
+                ", id_squadra_ufficiale=" + id_squadra_ufficiale +
                 ", squadre=" + squadre +
                 '}';
     }
@@ -106,5 +111,13 @@ public class Giocatore {
 
     public void setSquadre(List<Squadra> squadre) {
         this.squadre = squadre;
+    }
+
+    public long getId_squadra_ufficiale() {
+        return id_squadra_ufficiale;
+    }
+
+    public void setId_squadra_ufficiale(long id_squadra_ufficiale) {
+        this.id_squadra_ufficiale = id_squadra_ufficiale;
     }
 }

@@ -36,8 +36,15 @@ public class GiocatoreServiceImpl implements GiocatoreService {
     }
 
     @Override
-    public void putGiocatore(long costo,long maxId,String ruolo, String nomeGiocatore) {
-        giocatoreRepository.putGiocatore(costo, maxId,ruolo, nomeGiocatore);
+    public void putGiocatore(long costo,String ruolo, String nomeGiocatore, long id_squadra_ufficiale) {
+        Giocatore giocatore = new Giocatore();
+        giocatore.setBinfortunato(false);
+        giocatore.setBsqualificato(false);
+        giocatore.setCosto(costo);
+        giocatore.setEruolo(ruolo);
+        giocatore.setNome(nomeGiocatore);
+        giocatore.setId_squadra_ufficiale(id_squadra_ufficiale);
+        giocatoreRepository.save(giocatore);
     }
 
     @Override

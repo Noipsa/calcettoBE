@@ -17,7 +17,7 @@ import java.util.Set;
 public class Squadra {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id_squadra;
 
     @Column(name = "id_formazione")
@@ -39,16 +39,6 @@ public class Squadra {
     @Column(name = "numero_giocatori_acquistati")
     private long numero_giocatori_acquistati;
 
-    @JsonBackReference
-    @JsonIgnore
-    @OneToMany(mappedBy="prima_squadra", cascade = {CascadeType.ALL})
-    private Set<Partita> partite_prima_squadra;
-
-    @JsonBackReference
-    @JsonIgnore
-    @OneToMany(mappedBy="seconda_squadra", cascade = {CascadeType.ALL})
-    private Set<Partita> partite_seconda_squadra;
-
     @Override
     public String toString() {
         return "Squadra{" +
@@ -58,8 +48,6 @@ public class Squadra {
                 ", crediti_residui=" + crediti_residui +
                 ", giocatori_acquistati=" + giocatori_acquistati +
                 ", numero_giocatori_acquistati=" + numero_giocatori_acquistati +
-                ", partite_prima_squadra=" + partite_prima_squadra +
-                ", partite_seconda_squadra=" + partite_seconda_squadra +
                 '}';
     }
 
@@ -112,21 +100,5 @@ public class Squadra {
 
     public void setNumero_giocatori_acquistati(long numero_giocatori_acquistati) {
         this.numero_giocatori_acquistati = numero_giocatori_acquistati;
-    }
-
-    public Set<Partita> getPartite_prima_squadra() {
-        return partite_prima_squadra;
-    }
-
-    public void setPartite_prima_squadra(Set<Partita> partite_prima_squadra) {
-        this.partite_prima_squadra = partite_prima_squadra;
-    }
-
-    public Set<Partita> getPartite_seconda_squadra() {
-        return partite_seconda_squadra;
-    }
-
-    public void setPartite_seconda_squadra(Set<Partita> partite_seconda_squadra) {
-        this.partite_seconda_squadra = partite_seconda_squadra;
     }
 }

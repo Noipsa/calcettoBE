@@ -12,7 +12,7 @@ import java.util.Set;
 public class ValutazionePartita {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private long id_valutazione;
 
     @Column(name = "id_partita")

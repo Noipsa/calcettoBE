@@ -12,7 +12,7 @@ import java.util.Date;
 public class Partita {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private long id_partita;
 
     @Column(name = "numero_giornata", nullable=false)
@@ -21,12 +21,12 @@ public class Partita {
     @JsonManagedReference
     @JoinColumn(name = "prima_squadra", nullable=false)
     @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private Squadra prima_squadra;
+    private SquadreUfficiali prima_squadra;
 
     @JsonManagedReference
     @JoinColumn (name = "seconda_squadra", nullable=false)
     @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private Squadra seconda_squadra;
+    private SquadreUfficiali seconda_squadra;
 
     @Column(name = "risultato_prima_squadra")
     private long risultato_prima_squadra;
@@ -69,19 +69,19 @@ public class Partita {
         this.numero_giornata = numero_giornata;
     }
 
-    public Squadra getPrima_squadra() {
+    public SquadreUfficiali getPrima_squadra() {
         return prima_squadra;
     }
 
-    public void setPrima_squadra(Squadra prima_squadra) {
+    public void setPrima_squadra(SquadreUfficiali prima_squadra) {
         this.prima_squadra = prima_squadra;
     }
 
-    public Squadra getSeconda_squadra() {
+    public SquadreUfficiali getSeconda_squadra() {
         return seconda_squadra;
     }
 
-    public void setSeconda_squadra(Squadra seconda_squadra) {
+    public void setSeconda_squadra(SquadreUfficiali seconda_squadra) {
         this.seconda_squadra = seconda_squadra;
     }
 

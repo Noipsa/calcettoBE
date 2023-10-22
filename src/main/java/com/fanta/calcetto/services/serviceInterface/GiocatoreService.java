@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface GiocatoreService {
     public List<Giocatore> findAll();
-    public void putGiocatore(long costo,long maxid,String ruolo, String nomeGiocatore);
+    public void putGiocatore(long costo,String ruolo, String nomeGiocatore, long id_squadra_ufficiale);
     public long getMax();
     public void inserisciValutazioneGiocatore(Giocatore giocatore, long valutazione);
     public void squalificaGiocatore(long id);

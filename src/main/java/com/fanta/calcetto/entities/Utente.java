@@ -15,7 +15,7 @@ import java.util.Set;
 public class Utente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id_utente;
 
     @Column(name = "id_squadra")

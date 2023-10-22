@@ -6,6 +6,7 @@ import com.fanta.calcetto.repository.TitolariSquadraRepository;
 import com.fanta.calcetto.services.serviceInterface.RosaService;
 import com.fanta.calcetto.services.serviceInterface.SquadraService;
 import com.fanta.calcetto.services.serviceInterface.TitolariSquadraService;
+import com.fanta.calcetto.services.serviceInterface.UtentiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +24,17 @@ public class TitolariSquadraServiceImpl implements TitolariSquadraService {
     @Autowired
     public RosaService rosaService;
 
+    @Autowired
+    public UtentiService utentiService;
+
     @Override
     public void saveTitolariSquadra(Utente utente, Giocatore titolare) {
 
-        Optional<Squadra> squadra = squadraService.getSquadraById(utente.getId_utente());
+        Optional<Squadra> squadra = squadraService.getSquadraById(utente.getId_squadra());
 
         Set<Giocatore> giocatore = squadra.get().getGiocatori_acquistati();
 
-        Giocatore giocatoreTrovato = giocatore.stream().filter((g -> g.getId_giocatore() == titolare.getId_giocatore())).findAny().get();
+        Giocatore giocatoreTrovato = giocatore.stream().filter((g -> Objects.equals(g.getId_giocatore(), titolare.getId_giocatore()))).findAny().get();
 
         Optional<TitolariSquadra> giocatoreGiaTitolare = titolariSquadraRepository.findByIdAndGiocatori(squadra.get().getId_squadra(), giocatoreTrovato.getId_giocatore());
 
@@ -48,7 +52,10 @@ public class TitolariSquadraServiceImpl implements TitolariSquadraService {
     @Override
     public FormazioneResponse getTitolari(long id) {
 
-        Squadra squadra = squadraService.getSquadraById(id).get();
+        Utente utente = utentiService.getUserById(id).get();
+        long id_squadra = utente.getId_squadra();
+
+        Squadra squadra = squadraService.getSquadraById(id_squadra).get();
         Rosa rosa = rosaService.getRosaById(squadra.getId_formazione());
 
         List<TitolariSquadra> titolari = titolariSquadraRepository.findAllByIdSquadraTitolare(squadra.getId_squadra());

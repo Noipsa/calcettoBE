@@ -46,6 +46,9 @@ public class MainController {
     @Autowired
     public ConfigurazionService configurazionService;
 
+    @Autowired
+    public SquadreUfficialiService squadreUfficialiService;
+
     @GetMapping("/giocatore/all")
     @ResponseBody
     public List<Giocatore> getAllGiocatori() {
@@ -175,9 +178,9 @@ public class MainController {
         String nomeGiocatore = request.getNomeGiocatore();
         long valutazione = request.getValutazione();
         String ruolo = request.getRuolo();
+        long id_squadra_ufficiale = request.getId_squadra_ufficiale();
 
-        long nextId = giocatoreService.getMax()+1;
-        giocatoreService.putGiocatore(valutazione,nextId,ruolo,nomeGiocatore);
+        giocatoreService.putGiocatore(valutazione,ruolo,nomeGiocatore, id_squadra_ufficiale);
     }
 
     @PostMapping("/giocatore/inserisciValutazioneGiocatore")
@@ -204,19 +207,19 @@ public class MainController {
     public FormazioneResponse putFormazione(
             @RequestBody AggiornaFormazioneRequest request
     ) {
-        Objects.requireNonNull(request.getUtente());
         Objects.requireNonNull(request.getRosa());
 
         Rosa rosa = request.getRosa();
-        Utente utente = request.getUtente();
-        Squadra squadra = squadraService.getSquadraById(utente.getId_utente()).get();
+        Utente utente = utentiService.getUserById(request.getId_utente()).get();
+        long id_squadra = utente.getId_squadra();
+        Squadra squadra = squadraService.getSquadraById(id_squadra).get();
 
         if (squadra.getId_formazione() != rosa.getId_formazione()) {
             squadra.setId_formazione(rosa.getId_formazione());
 
             squadraService.putSquadra(squadra);
 
-            List<TitolariSquadra> titolariSquadra = titolariSquadraService.getTitolariSquadraById(utente.getId_utente());
+            List<TitolariSquadra> titolariSquadra = titolariSquadraService.getTitolariSquadraById(id_squadra);
             titolariSquadraService.eliminaTitolari(titolariSquadra);
         }
 
@@ -254,7 +257,7 @@ public class MainController {
         Utente utente = request.getUtente();
         //per aver i giocatori aggiornati;
 
-        Squadra squadra = squadraService.getSquadraById(utente.getId_utente()).get();
+        Squadra squadra = squadraService.getSquadraById(utente.getId_squadra()).get();
 
         Set<Giocatore> giocatoreAcquistati = squadra.getGiocatori_acquistati();
 
@@ -518,7 +521,7 @@ public class MainController {
     public UtenteResponse findUser(@PathVariable long id) {
 
         Utente utente = utentiService.getUserById(id).get();
-        Squadra squadra = squadraService.getSquadraById(utente.getId_utente()).get();
+        Squadra squadra = squadraService.getSquadraById(utente.getId_squadra()).get();
 
         UtenteResponse utenteResponse = new UtenteResponse();
         utenteResponse.setUtente(utente);
@@ -596,5 +599,19 @@ public class MainController {
         }
 
         return mercato;
+    }
+
+    @PostMapping("/squadreufficiali/inserisci")
+    @ResponseBody
+    public void inserisciSquadra(
+            @RequestBody InserisciSquadraRequest request
+    ) {
+        squadreUfficialiService.insertSquadra(request.getNomesquadra());
+    }
+
+    @GetMapping("/squadreufficiali/all")
+    @ResponseBody
+    public List<SquadreUfficiali> inserisciSquadra() {
+        return squadreUfficialiService.getAllSquadre();
     }
 }

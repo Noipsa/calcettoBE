@@ -12,7 +12,7 @@ import java.util.Set;
 @Repository
 public interface TitolariSquadraRepository extends JpaRepository<TitolariSquadra, Long> {
 
-    @Query(value = "select * from titolari_squadra where id_squadra = ?1 and giocatori_titolari_id_giocatore = ?2", nativeQuery = true)
+    @Query(value = "select * from titolari_squadra where id_squadra = ?1 and id_giocatore = ?2", nativeQuery = true)
     Optional<TitolariSquadra> findByIdAndGiocatori(long id, long idgiocatore);
 
     @Query(value = "select * from titolari_squadra where id_squadra = ?1", nativeQuery = true)

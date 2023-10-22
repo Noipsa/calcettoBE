@@ -13,9 +13,9 @@ public interface GiocatoreRepository extends JpaRepository<Giocatore, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO giocatore (binfortunato, bsqualificato, costo, id_giocatore, eruolo, nome)" +
-            "VALUES (0,0,?1,?2,?3,?4 )", nativeQuery = true)
-    void putGiocatore(long costo,long maxId, String ruolo, String nomeGiocatore);
+    @Query(value = "INSERT INTO giocatore (binfortunato, bsqualificato, costo, id_giocatore, eruolo, nome, id_squadra_ufficiale)" +
+            "VALUES (0,0,?1,?2,?3,?4, ?5)", nativeQuery = true)
+    void putGiocatore(long costo, String ruolo, String nomeGiocatore, long id_squadra_ufficiale);
 
     @Query(value = "select max(id_giocatore) from giocatore", nativeQuery = true)
     long getMax();

@@ -9,7 +9,7 @@ import lombok.Setter;
 public class Rosa {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id_formazione;
 
     @Column(name = "numero_difensori")
