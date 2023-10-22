@@ -6,14 +6,18 @@ import com.fanta.calcetto.entities.TitolariSquadra;
 import com.fanta.calcetto.entities.Utente;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TitolariSquadraService {
 
-    public void saveTitolariSquadra(Utente utente, Giocatore giocatore);
+    public void saveTitolariSquadra(long id_utente, Giocatore giocatore);
 
     public FormazioneResponse getTitolari(long id);
 
     public List<TitolariSquadra> getTitolariSquadraById(long id);
+    public TitolariSquadra getTitolariSquadraByIdSquadraAndIdGiocatore(long id_squadra, long id_giocatore);
 
     public void eliminaTitolari(List<TitolariSquadra> titolari);
+
+    public void eliminaTitolare(TitolariSquadra titolare);
 }

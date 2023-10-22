@@ -9,7 +9,7 @@ import lombok.Setter;
 
 public class AcquistoGiocatoriRequest {
     private Giocatore giocatore;
-    private Utente utente;
+    private long id_utente;
 
     public AcquistoGiocatoriRequest() {
     }
@@ -22,11 +22,11 @@ public class AcquistoGiocatoriRequest {
         this.giocatore = giocatore;
     }
 
-    public Utente getUtente() {
-        return utente;
+    public long getId_utente() {
+        return id_utente;
     }
 
-    public void setUtente(Utente utente) {
-        this.utente = utente;
+    public void setId_utente(long utente) {
+        this.id_utente = utente;
     }
 }

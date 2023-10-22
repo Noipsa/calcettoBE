@@ -28,9 +28,12 @@ public class TitolariSquadraServiceImpl implements TitolariSquadraService {
     public UtentiService utentiService;
 
     @Override
-    public void saveTitolariSquadra(Utente utente, Giocatore titolare) {
+    public void saveTitolariSquadra(long id_utente, Giocatore titolare) {
 
-        Optional<Squadra> squadra = squadraService.getSquadraById(utente.getId_squadra());
+        Utente utente = utentiService.getUserById(id_utente).get();
+        long id_squadra = utente.getId_squadra();
+
+        Optional<Squadra> squadra = squadraService.getSquadraById(id_squadra);
 
         Set<Giocatore> giocatore = squadra.get().getGiocatori_acquistati();
 
@@ -122,8 +125,19 @@ public class TitolariSquadraServiceImpl implements TitolariSquadraService {
     }
 
     @Override
+    public TitolariSquadra getTitolariSquadraByIdSquadraAndIdGiocatore(long id_squadra, long id_giocatore) {
+        Optional<TitolariSquadra> titolariSquadra =  titolariSquadraRepository.findByIdAndGiocatori(id_squadra, id_giocatore);
+        return titolariSquadra.orElse(null);
+    }
+
+    @Override
     public void eliminaTitolari(List<TitolariSquadra> titolari) {
         titolariSquadraRepository.deleteAll(titolari);
+    }
+
+    @Override
+    public void eliminaTitolare(TitolariSquadra titolare) {
+        titolariSquadraRepository.delete(titolare);
     }
 
     private List<Giocatore> trovaGiocatore(List<TitolariSquadra> titolari, Set<Giocatore> giocatoriAcquistati, String ruolo) {

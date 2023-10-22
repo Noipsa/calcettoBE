@@ -12,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 public class MainController {
@@ -60,13 +57,12 @@ public class MainController {
     public Set<Giocatore> buyGiocatori(
             @RequestBody AcquistoGiocatoriRequest request
     ) throws Exception {
-        Objects.requireNonNull(request.getUtente());
         Objects.requireNonNull(request.getGiocatore());
 
         Giocatore giocatore = request.getGiocatore();
 
         //per aver i giocatori aggiornati
-        Utente utente = utentiService.getUserById(request.getUtente().getId_utente()).get();
+        Utente utente = utentiService.getUserById(request.getId_utente()).get();
 
         Squadra squadra = squadraService.getSquadraById(utente.getId_squadra()).get();
 
@@ -141,13 +137,12 @@ public class MainController {
     public Set<Giocatore> sellGiocatori(
             @RequestBody AcquistoGiocatoriRequest request
     ) throws Exception {
-        Objects.requireNonNull(request.getUtente());
         Objects.requireNonNull(request.getGiocatore());
 
         Giocatore giocatore = request.getGiocatore();
 
         //per aver i giocatori aggiornati
-        Utente utente = utentiService.getUserById(request.getUtente().getId_utente()).get();
+        Utente utente = utentiService.getUserById(request.getId_utente()).get();
 
         Squadra squadra = squadraService.getSquadraById(utente.getId_squadra()).get();
 
@@ -162,6 +157,13 @@ public class MainController {
 
             squadra.setGiocatori_acquistati(giocatoriSquadra);
             squadraService.putSquadra(squadra);
+
+            TitolariSquadra titolareSquadra = titolariSquadraService.
+                    getTitolariSquadraByIdSquadraAndIdGiocatore(squadra.getId_squadra(), giocatoreGiaPresente.get(0).getId_giocatore());
+
+            if (titolareSquadra != null) {
+                titolariSquadraService.eliminaTitolare(titolareSquadra);
+            }
         }
 
 
@@ -438,13 +440,12 @@ public class MainController {
     public void saveTitolare(
             @RequestBody AggiornaTitolariRequest request
     ) {
-        Objects.requireNonNull(request.getUtente());
         Objects.requireNonNull(request.getGiocatore());
 
-        Utente utente = request.getUtente();
+        long id_utente = request.getId_utente();
         Giocatore giocatore = request.getGiocatore();
 
-        titolariSquadraService.saveTitolariSquadra(utente, giocatore);
+        titolariSquadraService.saveTitolariSquadra(id_utente, giocatore);
     }
 
     @GetMapping("/titolari/get/{id}")
