@@ -6,12 +6,14 @@ import com.fanta.calcetto.controllers.responses.model.GiocatoriModel;
 import com.fanta.calcetto.controllers.responses.model.TitolariModel;
 import com.fanta.calcetto.entities.*;
 import com.fanta.calcetto.services.serviceInterface.*;
+import org.hibernate.sql.Insert;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
@@ -185,6 +187,21 @@ public class MainController {
         long id_squadra_ufficiale = request.getId_squadra_ufficiale();
 
         giocatoreService.putGiocatore(valutazione,ruolo,nomeGiocatore, id_squadra_ufficiale);
+    }
+
+    @PostMapping("/partita/insertPartita")
+    @ResponseBody
+    public void inserisciGiocatore(
+            @NotNull @RequestBody InsertPartitaRequest request
+    ){
+        Objects.requireNonNull(request.getData_partita());
+
+        long giornata = request.getGiornata();
+        long id_prima_squadra = request.getId_prima_squadra();
+        long id_seconda_squadra = request.getId_seconda_squadra();
+        LocalDateTime data_partita = request.getData_partita();
+
+        partitaService.inserisciPartita(giornata,id_prima_squadra,id_seconda_squadra, data_partita);
     }
 
     @PostMapping("/giocatore/inserisciValutazioneGiocatore")

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 @Entity
 @Table(name = "partita")
@@ -35,7 +36,7 @@ public class Partita {
     private long risultato_seconda_squadra;
 
     @Column(name = "data_partita", nullable=true)
-    private Date data_partita;
+    private LocalDateTime data_partita;
 
     @Override
     public String toString() {
@@ -101,11 +102,11 @@ public class Partita {
         this.risultato_seconda_squadra = risultato_seconda_squadra;
     }
 
-    public Date getData_partita() {
+    public LocalDateTime getData_partita() {
         return data_partita;
     }
 
-    public void setData_partita(Date data_partita) {
+    public void setData_partita(LocalDateTime data_partita) {
         this.data_partita = data_partita;
     }
 }
