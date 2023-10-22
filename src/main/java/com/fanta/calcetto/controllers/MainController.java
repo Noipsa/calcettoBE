@@ -79,6 +79,8 @@ public class MainController {
             throw new Exception("Massimo Numero Giocatori");
         } if (isMaxGiocatoriRuolo(giocatoriSquadra, giocatore.getEruolo())) {
             throw new Exception("Massimo Numero Giocatori Stesso ruolo");
+        } if (squadra.getCrediti_residui() < giocatore.getCosto()) {
+            throw new Exception("Non crediti Residui");
         }
 
         giocatoriSquadra.add(giocatore);
@@ -607,6 +609,14 @@ public class MainController {
             @RequestBody InserisciSquadraRequest request
     ) {
         squadreUfficialiService.insertSquadra(request.getNomesquadra());
+    }
+
+    @PostMapping("/squadre/inseriscicredito")
+    @ResponseBody
+    public void inserisciCredito(
+            @RequestBody InserisciCreditoRequest request
+    ) {
+        squadraService.insertCredito(request.getCredito());
     }
 
     @GetMapping("/squadreufficiali/all")

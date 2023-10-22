@@ -11,4 +11,5 @@ public interface SquadraService {
     public Squadra putSquadra(Squadra squadra);
 
     public List<Squadra> findAll();
+    public void insertCredito(long credito);
 }

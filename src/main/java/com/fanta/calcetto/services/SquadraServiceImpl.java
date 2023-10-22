@@ -40,4 +40,9 @@ public class SquadraServiceImpl implements SquadraService {
     public List<Squadra> findAll() {
         return squadraRepository.findAll();
     }
+
+    @Override
+    public void insertCredito(long credito) {
+        squadraRepository.insertCredito(credito);
+    }
 }
