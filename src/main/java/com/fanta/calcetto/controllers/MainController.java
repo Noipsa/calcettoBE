@@ -1,10 +1,7 @@
 package com.fanta.calcetto.controllers;
 
 import com.fanta.calcetto.controllers.requests.*;
-import com.fanta.calcetto.controllers.responses.ClassificaResponse;
-import com.fanta.calcetto.controllers.responses.FormazioneResponse;
-import com.fanta.calcetto.controllers.responses.GiocatoriPartitaResponse;
-import com.fanta.calcetto.controllers.responses.UtenteResponse;
+import com.fanta.calcetto.controllers.responses.*;
 import com.fanta.calcetto.controllers.responses.model.GiocatoriModel;
 import com.fanta.calcetto.controllers.responses.model.TitolariModel;
 import com.fanta.calcetto.entities.*;
@@ -45,6 +42,9 @@ public class MainController {
 
     @Autowired
     public ValutazionePartitaService valutazionePartitaService;
+
+    @Autowired
+    public ConfigurazionService configurazionService;
 
     @GetMapping("/giocatore/all")
     @ResponseBody
@@ -478,7 +478,7 @@ public class MainController {
 
     @PostMapping("/utenti/login")
     @ResponseBody
-    public Utente loginUser(
+    public LoginResponse loginUser(
             @RequestBody LoginRequest request
     ) {
         Objects.requireNonNull(request.getPassword());
@@ -495,7 +495,16 @@ public class MainController {
                 if (!u.isBactive())
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST,  "Utente gia registrato");
 
-                return u;
+                Configurazioni configurazione = configurazionService.getConfigurazioneByProprieta("mercato");
+
+                boolean mercato = false;
+                if (configurazione != null) {
+                    mercato = Boolean.parseBoolean(configurazione.getValue());
+                }
+                LoginResponse loginResponse = new LoginResponse();
+                loginResponse.setMercato(mercato);
+                loginResponse.setUtente(u);
+                return loginResponse;
             }
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,  "Utente gia registrato");
@@ -539,5 +548,53 @@ public class MainController {
             @PathVariable long id
     ) {
         utentiService.eliminaUtente(id);
+    }
+
+    @DeleteMapping("/giocatore/elimina/{id}")
+    @ResponseBody
+    public void eliminaGiocatore(
+            @PathVariable long id
+    ) {
+        giocatoreService.eliminaGiocatore(id);
+    }
+    @PutMapping("/giocatore/infortunio/{id}")
+    @ResponseBody
+    public void infortunioGiocatore(
+            @PathVariable long id
+    ) {
+        giocatoreService.infortunioGiocatore(id);
+    }
+
+    @PutMapping("/giocatore/squalifica/{id}")
+    @ResponseBody
+    public void squalificaGiocatore(
+            @PathVariable long id
+    ) {
+        giocatoreService.squalificaGiocatore(id);
+    }
+
+    @GetMapping("/configurazioni/all")
+    @ResponseBody
+    public List<Configurazioni> getConfigurazioni() {
+        return configurazionService.getConfigurazioni();
+    }
+
+    @PutMapping("/configurazioni/mercato")
+    @ResponseBody
+    public void apriMercato() {
+        configurazionService.apriMercato();
+    }
+
+    @GetMapping("/configurazioni/mercato")
+    @ResponseBody
+    public boolean getMercato() {
+        Configurazioni configurazione = configurazionService.getConfigurazioneByProprieta("mercato");
+
+        boolean mercato = false;
+        if (configurazione != null) {
+            mercato = Boolean.parseBoolean(configurazione.getValue());
+        }
+
+        return mercato;
     }
 }

@@ -59,5 +59,29 @@ public class GiocatoreServiceImpl implements GiocatoreService {
         }
     }
 
+    public Giocatore getGiocatoreById(long id) {
+        return giocatoreRepository.findById(id).get();
+    }
+
+    @Override
+    public void squalificaGiocatore(long id) {
+        Giocatore giocatore = getGiocatoreById(id);
+        giocatore.setBsqualificato(!giocatore.isBsqualificato());
+        giocatoreRepository.save(giocatore);
+    }
+
+    @Override
+    public void infortunioGiocatore(long id) {
+        Giocatore giocatore = getGiocatoreById(id);
+        giocatore.setBinfortunato(!giocatore.isBinfortunato());
+        giocatoreRepository.save(giocatore);
+    }
+
+    @Override
+    public void eliminaGiocatore(long id) {
+        Giocatore giocatore = getGiocatoreById(id);
+        giocatoreRepository.delete(giocatore);
+    }
+
 
 }

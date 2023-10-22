@@ -9,4 +9,7 @@ public interface GiocatoreService {
     public void putGiocatore(long costo,long maxid,String ruolo, String nomeGiocatore);
     public long getMax();
     public void inserisciValutazioneGiocatore(Giocatore giocatore, long valutazione);
+    public void squalificaGiocatore(long id);
+    public void infortunioGiocatore(long id);
+    public void eliminaGiocatore(long id);
 }
