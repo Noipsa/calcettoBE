@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PartitaServiceImpl implements PartitaService {
@@ -23,7 +24,7 @@ public class PartitaServiceImpl implements PartitaService {
     private SquadreUfficialiaRepository squadreUfficialiaRepository;
     @Override
     public List<Partita> findAll() {
-        return partitaRepository.findAll();
+        return partitaRepository.getAllOrderByDataPartita();
     }
 
     @Override
@@ -47,5 +48,17 @@ public class PartitaServiceImpl implements PartitaService {
     public LocalDateTime getPrimaPartitaGiornata() {
         Partita partita = partitaRepository.getFirstByDataPartitaAndGiornata(getGiornataAttuale());
         return partita.getData_partita();
+    }
+
+    @Override
+    public void eliminaPartita(long id_partita) {
+        partitaRepository.deleteById(id_partita);
+    }
+
+
+
+    @Override
+    public void aggiornaPartita(long id_partita, long risultato_prima_squadra, long risultato_seconda_squadra) {
+        partitaRepository.updateRisultatiByIdPartita(id_partita, risultato_prima_squadra, risultato_seconda_squadra);
     }
 }

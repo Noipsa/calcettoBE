@@ -27,13 +27,17 @@ public class SquadreUfficiali {
     @OneToMany(mappedBy="seconda_squadra", cascade = {CascadeType.ALL})
     private Set<Partita> partite_seconda_squadra;
 
+    @Column(name = "logo")
+    private String logo;
+
     @Override
     public String toString() {
         return "SquadreUfficiali{" +
                 "id=" + id +
-                ", nome_squadra=" + nome_squadra +
+                ", nome_squadra='" + nome_squadra + '\'' +
                 ", partite_prima_squadra=" + partite_prima_squadra +
                 ", partite_seconda_squadra=" + partite_seconda_squadra +
+                ", logo='" + logo + '\'' +
                 '}';
     }
 
@@ -70,5 +74,13 @@ public class SquadreUfficiali {
 
     public void setPartite_seconda_squadra(Set<Partita> partite_seconda_squadra) {
         this.partite_seconda_squadra = partite_seconda_squadra;
+    }
+
+    public String getLogo() {   
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }

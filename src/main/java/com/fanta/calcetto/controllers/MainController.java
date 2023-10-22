@@ -229,6 +229,18 @@ public class MainController {
         partitaService.inserisciPartita(giornata,id_prima_squadra,id_seconda_squadra, data_partita);
     }
 
+    @PostMapping("/partita/aggiornaPartita")
+    @ResponseBody
+    public void aggiornaPartita(
+            @NotNull @RequestBody AggiornaPartitaRequest request
+    ){
+        long risultato_prima_squadra = request.getRisultato_prima_squadra();
+        long risultato_seconda_squadra = request.getRisultato_seconda_squadra();
+        long id_partita = request.getId_partita();
+
+        partitaService.aggiornaPartita(id_partita, risultato_prima_squadra, risultato_seconda_squadra);
+    }
+
     @PostMapping("/giocatore/inserisciValutazioneGiocatore")
     @ResponseBody
     public void inserisciValutazioneGiocatore(
@@ -407,6 +419,14 @@ public class MainController {
     @ResponseBody
     public void calcolaGiornata() {
         giornataService.calcolaGiornata();
+    }
+
+    @DeleteMapping("/partita/elimina/{id_partita}")
+    @ResponseBody
+    public void eliminaPartita(
+            @PathVariable long id_partita
+    ) {
+        partitaService.eliminaPartita(id_partita);
     }
 
     @GetMapping("/matchs/giocatoriPartita/{id}")
