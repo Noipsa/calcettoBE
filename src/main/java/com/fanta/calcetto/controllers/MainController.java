@@ -63,6 +63,17 @@ public class MainController {
 
         Giocatore giocatore = request.getGiocatore();
 
+        Configurazioni configurazione = configurazionService.getConfigurazioneByProprieta("mercato");
+
+        boolean mercato = false;
+        if (configurazione != null ) {
+            mercato = Boolean.parseBoolean(configurazione.getValue());
+        }
+
+        if (!mercato) {
+            return null;
+        }
+
         //per aver i giocatori aggiornati
         Utente utente = utentiService.getUserById(request.getId_utente()).get();
 
@@ -142,6 +153,17 @@ public class MainController {
         Objects.requireNonNull(request.getGiocatore());
 
         Giocatore giocatore = request.getGiocatore();
+
+        Configurazioni configurazione = configurazionService.getConfigurazioneByProprieta("mercato");
+
+        boolean mercato = false;
+        if (configurazione != null ) {
+            mercato = Boolean.parseBoolean(configurazione.getValue());
+        }
+
+        if (!mercato) {
+            return null;
+        }
 
         //per aver i giocatori aggiornati
         Utente utente = utentiService.getUserById(request.getId_utente()).get();
