@@ -48,6 +48,9 @@ public class MainController {
     @Autowired
     public SquadreUfficialiService squadreUfficialiService;
 
+    @Autowired
+    public TitolariEffettiviGiornataService titolariEffettiviGiornataService;
+
     @GetMapping("/giocatore/all")
     @ResponseBody
     public List<Giocatore> getAllGiocatori() {
@@ -354,7 +357,8 @@ public class MainController {
         long giornataAttuale = partitaService.getGiornataAttuale();
         for (Squadra squadra : squadre) {
             long sommaPunteggio = 0;
-            List<TitolariSquadra> titolariSquadra = titolariSquadraService.getTitolariSquadraById(squadra.getId_squadra());
+            List<TitolariEffettiviGiornata> titolariSquadra = titolariEffettiviGiornataService
+                    .getTitolariEffettiviPrimaDellaGiornataAttuale(squadra.getId_squadra(), giornataAttuale);
 
             if (titolariSquadra.isEmpty()) {
                 ClassificaResponse classificaResponse = new ClassificaResponse();
@@ -365,7 +369,7 @@ public class MainController {
                 continue;
             }
 
-            for (TitolariSquadra giocatore : titolariSquadra) {
+            for (TitolariEffettiviGiornata giocatore : titolariSquadra) {
                 long id_titolare = giocatore.getId_giocatore();
                 List<ValutazionePartita> valutazionePartite = valutazionePartitaService.getValutazioneByMinIdGiornataAndIdGiocatore(giornataAttuale, id_titolare);
 
