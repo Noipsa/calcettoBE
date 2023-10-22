@@ -239,6 +239,14 @@ public class MainController {
         giocatoreService.inserisciValutazioneGiocatore(nomeGiocatore,valutazione);
     }
 
+    @PostMapping("/formation/inserisciFormazioneTitolare/{id}")
+    @ResponseBody
+    public void inserisciFormazioneTitolare(
+            @PathVariable long id
+    ) {
+        titolariSquadraService.inserisciFormazioneTitolare(id);
+    }
+
     @GetMapping("/formation/all")
     @ResponseBody
     public List<Rosa> getAllRose() {
@@ -329,6 +337,12 @@ public class MainController {
         long idSquadra = utente.getId_squadra();
         Squadra squadra = squadraService.getSquadraById(idSquadra).get();
         return squadra.getGiocatori_acquistati();
+    }
+
+    @GetMapping("/formation/primapartita")
+    @ResponseBody
+    public LocalDateTime getGiocatoriPosseduti() {
+        return partitaService.getPrimaPartitaGiornata();
     }
 
     @GetMapping("/formation/classifica")

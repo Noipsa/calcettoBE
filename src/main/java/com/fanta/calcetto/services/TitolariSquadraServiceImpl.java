@@ -2,11 +2,11 @@ package com.fanta.calcetto.services;
 
 import com.fanta.calcetto.controllers.responses.FormazioneResponse;
 import com.fanta.calcetto.entities.*;
+import com.fanta.calcetto.repository.GiornataRepository;
+import com.fanta.calcetto.repository.TitolariEffettiviGiornataRepository;
 import com.fanta.calcetto.repository.TitolariSquadraRepository;
-import com.fanta.calcetto.services.serviceInterface.RosaService;
-import com.fanta.calcetto.services.serviceInterface.SquadraService;
-import com.fanta.calcetto.services.serviceInterface.TitolariSquadraService;
-import com.fanta.calcetto.services.serviceInterface.UtentiService;
+import com.fanta.calcetto.services.serviceInterface.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +16,22 @@ import java.util.*;
 public class TitolariSquadraServiceImpl implements TitolariSquadraService {
 
     @Autowired
-    public TitolariSquadraRepository titolariSquadraRepository;
+    private TitolariSquadraRepository titolariSquadraRepository;
 
     @Autowired
-    public SquadraService squadraService;
+    private SquadraService squadraService;
 
     @Autowired
-    public RosaService rosaService;
+    private RosaService rosaService;
 
     @Autowired
-    public UtentiService utentiService;
+    private UtentiService utentiService;
+
+    @Autowired
+    private GiornataRepository giornataRepository;
+
+    @Autowired
+    public TitolariEffettiviGiornataRepository titolariEffettiviGiornataRepository;
 
     @Override
     public void saveTitolariSquadra(long id_utente, Giocatore titolare) {
@@ -138,6 +144,27 @@ public class TitolariSquadraServiceImpl implements TitolariSquadraService {
     @Override
     public void eliminaTitolare(TitolariSquadra titolare) {
         titolariSquadraRepository.delete(titolare);
+    }
+
+    @Override
+    @Transactional
+    public void inserisciFormazioneTitolare(long id) {
+        Utente utente = utentiService.getUserById(id).get();
+        long id_squadra = utente.getId_squadra();
+        long giornata = giornataRepository.getMax();
+
+        titolariEffettiviGiornataRepository.deleteAllByIdSquadraAndGiornata(id_squadra, giornata);
+
+        List<TitolariSquadra> titolariSquadra = titolariSquadraRepository.findAllByIdSquadraTitolare(id_squadra);
+        System.out.println(titolariSquadra);
+        for (TitolariSquadra titolare : titolariSquadra) {
+            TitolariEffettiviGiornata titolareEffettiviGiornata = new TitolariEffettiviGiornata();
+            titolareEffettiviGiornata.setId_giocatore(titolare.getId_giocatore());
+            titolareEffettiviGiornata.setId_squadra(id_squadra);
+            titolareEffettiviGiornata.setGiornata(giornataRepository.getMax());
+            titolariEffettiviGiornataRepository.save(titolareEffettiviGiornata);
+        }
+
     }
 
     private List<Giocatore> trovaGiocatore(List<TitolariSquadra> titolari, Set<Giocatore> giocatoriAcquistati, String ruolo) {

@@ -42,4 +42,10 @@ public class PartitaServiceImpl implements PartitaService {
         partita.setNumero_giornata(giornata);
         partitaRepository.save(partita);
     }
+
+    @Override
+    public LocalDateTime getPrimaPartitaGiornata() {
+        Partita partita = partitaRepository.getFirstByDataPartitaAndGiornata(getGiornataAttuale());
+        return partita.getData_partita();
+    }
 }
