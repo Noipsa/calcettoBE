@@ -1,5 +1,6 @@
 package com.fanta.calcetto.services.serviceInterface;
 
+import com.fanta.calcetto.entities.Riserve;
 import com.fanta.calcetto.entities.Squadra;
 
 import java.util.List;
@@ -12,4 +13,8 @@ public interface SquadraService {
 
     public List<Squadra> findAll();
     public void insertCredito(long credito);
+
+    public List<Riserve> getRiserveByIdSquadra(long id);
+
+    public void eliminaRiserve(long id);
 }

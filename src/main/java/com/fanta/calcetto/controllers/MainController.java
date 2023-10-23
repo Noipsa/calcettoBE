@@ -6,7 +6,6 @@ import com.fanta.calcetto.controllers.responses.model.GiocatoriModel;
 import com.fanta.calcetto.controllers.responses.model.TitolariModel;
 import com.fanta.calcetto.entities.*;
 import com.fanta.calcetto.services.serviceInterface.*;
-import org.hibernate.sql.Insert;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -110,9 +109,9 @@ public class MainController {
             case "POR":
                 return countGiocatoriRuolo(giocatoriSquadra, eruolo) == 2;
             case "DIF":
-                return countGiocatoriRuolo(giocatoriSquadra, eruolo) == 6;
+                return countGiocatoriRuolo(giocatoriSquadra, eruolo) == 5;
             case "ATT":
-                return countGiocatoriRuolo(giocatoriSquadra, eruolo) == 4;
+                return countGiocatoriRuolo(giocatoriSquadra, eruolo) == 5;
         }
         return false;
     }
@@ -312,6 +311,45 @@ public class MainController {
         return formazione;
     }
 
+    @PostMapping("/formation/aggiornaRiserve")
+    @ResponseBody
+    public FormazioneResponse putRiserve(
+            @RequestBody AggiornaRiserveRequest request
+    ) {
+        Objects.requireNonNull(request.getRosa());
+
+        Rosa rosa = request.getRosa();
+        Utente utente = utentiService.getUserById(request.getId_utente()).get();
+        long id_squadra = utente.getId_squadra();
+        Squadra squadra = squadraService.getSquadraById(id_squadra).get();
+
+
+        squadraService.eliminaRiserve(id_squadra);
+
+
+        FormazioneResponse formazioneRiserve = new FormazioneResponse();
+
+        List<Giocatore> portieri = new ArrayList<>();
+        portieri.add(new Giocatore());
+        formazioneRiserve.setPortieri(portieri);
+
+        List<Giocatore> difensori = new ArrayList<>();
+        long numero_riserve_difesa = 5 - rosa.getNumero_difensori();
+        for (int i = 0; i < numero_riserve_difesa; i++) {
+            difensori.add(new Giocatore());
+        }
+        formazioneRiserve.setDifensori(difensori);
+
+        List<Giocatore> attaccanti = new ArrayList<>();
+        long numero_riserve_attacco = 5 - rosa.getNumero_attaccanti();
+        for (int i = 0; i < numero_riserve_attacco; i++) {
+            attaccanti.add(new Giocatore());
+        }
+        formazioneRiserve.setAttaccanti(attaccanti);
+
+        return formazioneRiserve;
+    }
+
     @PostMapping("/formation/getGiocatori")
     @ResponseBody
     public List<Giocatore> getGiocatori(
@@ -326,21 +364,23 @@ public class MainController {
         Squadra squadra = squadraService.getSquadraById(utente.getId_squadra()).get();
 
         Set<Giocatore> giocatoreAcquistati = squadra.getGiocatori_acquistati();
+        List<TitolariSquadra> titolari = titolariSquadraService.getTitolariSquadraById(utente.getId_squadra());
 
         switch (type) {
             case 1:
-                return getGiocatoreByRuolo(giocatoreAcquistati, "POR");
+                return getGiocatoreByRuolo(giocatoreAcquistati, titolari,  "POR");
             case 2:
-                return getGiocatoreByRuolo(giocatoreAcquistati, "DIF");
+                return getGiocatoreByRuolo(giocatoreAcquistati, titolari, "DIF");
             case 3:
-                return getGiocatoreByRuolo(giocatoreAcquistati, "ATT");
+                return getGiocatoreByRuolo(giocatoreAcquistati, titolari, "ATT");
             default:
                 return null;
         }
     }
 
-    private List<Giocatore> getGiocatoreByRuolo(Set<Giocatore> giocatoreAcquistati, String filter) {
-        return giocatoreAcquistati.stream().filter((giocatore -> giocatore.getEruolo().equals(filter))).toList();
+    private List<Giocatore> getGiocatoreByRuolo(Set<Giocatore> giocatoreAcquistati, List<TitolariSquadra> titolari, String filter) {
+        return giocatoreAcquistati.stream().filter((giocatore -> giocatore.getEruolo().equals(filter)
+                && titolari.stream().noneMatch((titolare-> giocatore.getId_giocatore().equals(titolare.getId_giocatore()))))).toList();
     }
 
     @GetMapping("/formation/getGiocatoriPosseduti/{id}")
@@ -525,12 +565,34 @@ public class MainController {
         titolariSquadraService.saveTitolariSquadra(id_utente, giocatore);
     }
 
+    @PostMapping("/titolari/saveRiserve")
+    @ResponseBody
+    public void saveRiserve(
+            @RequestBody SaveRiserveRequest request
+    ) {
+        Objects.requireNonNull(request.getGiocatore());
+
+        long id_utente = request.getId_utente();
+        long ordine = request.getOrdine_entrata();
+        Giocatore giocatore = request.getGiocatore();
+
+        titolariSquadraService.saveRiserve(id_utente, ordine, giocatore);
+    }
+
     @GetMapping("/titolari/get/{id}")
     @ResponseBody
-    public FormazioneResponse saveTitolare(
+    public FormazioneResponse getTitolare(
             @PathVariable long id
     ) {
         return titolariSquadraService.getTitolari(id);
+    }
+
+    @GetMapping("/titolari/getRiserve/{id}")
+    @ResponseBody
+    public FormazioneResponseRiserve getRiserva(
+            @PathVariable long id
+    ) {
+        return titolariSquadraService.getRiserve(id);
     }
 
     @PostMapping("/utenti/save")

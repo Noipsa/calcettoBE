@@ -1,7 +1,9 @@
 package com.fanta.calcetto.services;
 
+import com.fanta.calcetto.entities.Riserve;
 import com.fanta.calcetto.entities.Squadra;
 import com.fanta.calcetto.entities.Utente;
+import com.fanta.calcetto.repository.RiserveRepository;
 import com.fanta.calcetto.repository.SquadraRepository;
 import com.fanta.calcetto.repository.UtentiRepository;
 import com.fanta.calcetto.services.serviceInterface.SquadraService;
@@ -16,6 +18,9 @@ public class SquadraServiceImpl implements SquadraService {
 
     @Autowired
     public SquadraRepository squadraRepository;
+
+    @Autowired
+    public RiserveRepository riserveRepository;
 
     @Autowired
     public UtentiRepository utentiRepository;
@@ -44,5 +49,15 @@ public class SquadraServiceImpl implements SquadraService {
     @Override
     public void insertCredito(long credito) {
         squadraRepository.insertCredito(credito);
+    }
+
+    @Override
+    public List<Riserve> getRiserveByIdSquadra(long id) {
+        return riserveRepository.getAllBySquadraId(id);
+    }
+
+    @Override
+    public void eliminaRiserve(long id) {
+        riserveRepository.eliminaByIdSquadra(id);
     }
 }
