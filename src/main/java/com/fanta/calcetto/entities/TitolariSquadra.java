@@ -21,14 +21,6 @@ public class TitolariSquadra {
     @Column(name = "id_giocatore")
     private Long id_giocatore;
 
-    @Override
-    public String toString() {
-        return "TitolariSquadra{" +
-                "id_squadra_titolare=" + id_squadra_titolare +
-                ", id_squadra=" + id_squadra +
-                '}';
-    }
-
     public TitolariSquadra() { }
 
     public Long getId_squadra_titolare() {

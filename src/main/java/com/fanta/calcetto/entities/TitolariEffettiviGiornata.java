@@ -18,16 +18,6 @@ public class TitolariEffettiviGiornata {
     @Column(name = "giornata")
     private Long giornata;
 
-    @Override
-    public String toString() {
-        return "TitolariEffettiviGiornata{" +
-                "id=" + id +
-                ", id_squadra=" + id_squadra +
-                ", id_giocatore=" + id_giocatore +
-                ", giornata=" + giornata +
-                '}';
-    }
-
     public TitolariEffettiviGiornata() {
     }
 

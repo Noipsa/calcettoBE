@@ -39,18 +39,6 @@ public class Squadra {
     @Column(name = "numero_giocatori_acquistati")
     private long numero_giocatori_acquistati;
 
-    @Override
-    public String toString() {
-        return "Squadra{" +
-                "id_squadra=" + id_squadra +
-                ", id_formazione=" + id_formazione +
-                ", nome_squadra='" + nome_squadra + '\'' +
-                ", crediti_residui=" + crediti_residui +
-                ", giocatori_acquistati=" + giocatori_acquistati +
-                ", numero_giocatori_acquistati=" + numero_giocatori_acquistati +
-                '}';
-    }
-
     public Squadra() {
     }
 

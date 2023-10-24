@@ -324,7 +324,9 @@ public class MainController {
         Squadra squadra = squadraService.getSquadraById(id_squadra).get();
 
 
-        squadraService.eliminaRiserve(id_squadra);
+        if (squadra.getId_formazione() != rosa.getId_formazione()) {
+            squadraService.eliminaRiserve(id_squadra);
+        }
 
 
         FormazioneResponse formazioneRiserve = new FormazioneResponse();

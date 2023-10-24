@@ -10,13 +10,6 @@ public class Giornata {
     @Id
     private long id_giornata;
 
-    @Override
-    public String toString() {
-        return "Giornata{" +
-                "id_giornata=" + id_giornata +
-                '}';
-    }
-
     public Giornata() { }
 
     public long getId_giornata() {

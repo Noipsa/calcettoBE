@@ -18,15 +18,6 @@ public class Rosa {
     @Column(name = "numero_attaccanti")
     private int numero_attaccanti;
 
-    @Override
-    public String toString() {
-        return "Rosa{" +
-                "id_formazione=" + id_formazione +
-                ", numero_difensori=" + numero_difensori +
-                ", numero_attaccanti=" + numero_attaccanti +
-                '}';
-    }
-
     public Rosa() {
     }
 

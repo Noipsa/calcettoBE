@@ -40,21 +40,6 @@ public class Giocatore {
     @JsonIgnore
     private List<Squadra> squadre;
 
-
-    @Override
-    public String toString() {
-        return "Giocatore{" +
-                "id_giocatore=" + id_giocatore +
-                ", nome='" + nome + '\'' +
-                ", costo=" + costo +
-                ", binfortunato=" + binfortunato +
-                ", bsqualificato=" + bsqualificato +
-                ", eruolo='" + eruolo + '\'' +
-                ", id_squadra_ufficiale=" + id_squadra_ufficiale +
-                ", squadre=" + squadre +
-                '}';
-    }
-
     public Giocatore() { }
 
     public Long getId_giocatore() {

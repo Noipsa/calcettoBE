@@ -17,4 +17,9 @@ public class ValutazionePartitaServiceImpl implements ValutazionePartitaService 
     public List<ValutazionePartita> getValutazioneByMinIdGiornataAndIdGiocatore(long idGiornata, long idGiocatore) {
         return valutazionePartitaRepository.getValutazioneByMinIdGiornataAndIdGiocatore(idGiornata, idGiocatore);
     }
+
+    @Override
+    public ValutazionePartita getValutazioneByIdGiornataAndIdGiocatore(long idGiornata, long idGiocatore) {
+        return valutazionePartitaRepository.getValutazioneByIdGiornataAndIdGiocatore(idGiornata, idGiocatore);
+    }
 }

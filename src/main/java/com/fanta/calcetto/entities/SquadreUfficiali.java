@@ -30,17 +30,6 @@ public class SquadreUfficiali {
     @Column(name = "logo")
     private String logo;
 
-    @Override
-    public String toString() {
-        return "SquadreUfficiali{" +
-                "id=" + id +
-                ", nome_squadra='" + nome_squadra + '\'' +
-                ", partite_prima_squadra=" + partite_prima_squadra +
-                ", partite_seconda_squadra=" + partite_seconda_squadra +
-                ", logo='" + logo + '\'' +
-                '}';
-    }
-
     public SquadreUfficiali() {
     }
 

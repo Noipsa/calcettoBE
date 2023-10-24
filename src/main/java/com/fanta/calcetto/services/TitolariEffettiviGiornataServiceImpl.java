@@ -17,4 +17,14 @@ public class TitolariEffettiviGiornataServiceImpl implements TitolariEffettiviGi
     public List<TitolariEffettiviGiornata> getTitolariEffettiviPrimaDellaGiornataAttuale(long id_squadra, long giornata) {
         return titolariEffettiviGiornataRepository.getTitolariByIdSquadraAndMinGiornata(id_squadra, giornata);
     }
+
+    @Override
+    public List<TitolariEffettiviGiornata> getTitolariByIdSquadraAndGiornata(long id_squadra, long giornata) {
+        return titolariEffettiviGiornataRepository.getTitolariByIdSquadraAndGiornata(id_squadra, giornata);
+    }
+
+    @Override
+    public void saveSostuzioni(List<TitolariEffettiviGiornata> sostituzioni) {
+        titolariEffettiviGiornataRepository.saveAll(sostituzioni);
+    }
 }

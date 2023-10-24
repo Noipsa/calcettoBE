@@ -15,15 +15,6 @@ public class Configurazioni {
     @Column(name = "value")
     private String value;
 
-    @Override
-    public String toString() {
-        return "Configurazioni{" +
-                "id=" + id +
-                ", proprieta='" + proprieta + '\'' +
-                ", value='" + value + '\'' +
-                '}';
-    }
-
     public Configurazioni() {
     }
 

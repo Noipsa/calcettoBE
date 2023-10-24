@@ -27,17 +27,6 @@ public class ValutazionePartita {
     @Column(name = "id_giornata")
     private long id_giornata;
 
-    @Override
-    public String toString() {
-        return "ValutazionePartita{" +
-                "id_valutazione=" + id_valutazione +
-                ", id_partita=" + id_partita +
-                ", id_giocatore=" + id_giocatore +
-                ", valutazione=" + valutazione +
-                ", id_giornata=" + id_giornata +
-                '}';
-    }
-
     public ValutazionePartita() { }
 
     public long getId_valutazione() {

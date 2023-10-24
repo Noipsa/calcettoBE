@@ -38,19 +38,6 @@ public class Partita {
     @Column(name = "data_partita", nullable=true)
     private LocalDateTime data_partita;
 
-    @Override
-    public String toString() {
-        return "Partita{" +
-                "id_partita=" + id_partita +
-                ", numero_giornata=" + numero_giornata +
-                ", prima_squadra=" + prima_squadra +
-                ", seconda_squadra=" + seconda_squadra +
-                ", risultato_prima_squadra=" + risultato_prima_squadra +
-                ", risultato_seconda_squadra=" + risultato_seconda_squadra +
-                ", data_partita=" + data_partita +
-                '}';
-    }
-
     public Partita() {
     }
 

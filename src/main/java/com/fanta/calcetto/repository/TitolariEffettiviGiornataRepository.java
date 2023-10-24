@@ -18,4 +18,7 @@ public interface TitolariEffettiviGiornataRepository extends JpaRepository<Titol
     void deleteAllByIdSquadraAndGiornata(long id, long giornata);
     @Query(value = "select * from titolari_effettivi_giornata where id_squadra = ?1 and giornata < ?2", nativeQuery = true)
     List<TitolariEffettiviGiornata> getTitolariByIdSquadraAndMinGiornata(long id_squadra, long giornata);
+
+    @Query(value = "select * from titolari_effettivi_giornata where id_squadra = ?1 and giornata = ?2", nativeQuery = true)
+    List<TitolariEffettiviGiornata> getTitolariByIdSquadraAndGiornata(long id_squadra, long giornata);
 }

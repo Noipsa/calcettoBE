@@ -8,4 +8,6 @@ public interface ValutazionePartitaService {
 
 
     public List<ValutazionePartita> getValutazioneByMinIdGiornataAndIdGiocatore(long idGiornata, long idGiocatore);
+
+    public ValutazionePartita getValutazioneByIdGiornataAndIdGiocatore(long idGiornata, long idGiocatore);
 }

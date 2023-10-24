@@ -30,17 +30,6 @@ public class Utente {
     @Column(name = "bactive")
     private boolean bactive;
 
-    @Override
-    public String toString() {
-        return "Utente{" +
-                "id_utente=" + id_utente +
-                ", id_squadra=" + id_squadra +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", bactive=" + bactive +
-                '}';
-    }
-
     public Utente() { }
 
     public Long getId_utente() {

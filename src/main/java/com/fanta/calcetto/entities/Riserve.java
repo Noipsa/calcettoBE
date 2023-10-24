@@ -19,16 +19,6 @@ public class Riserve{
     @Column(name = "ordine_entrata")
     private long ordine_entrata;
 
-    @Override
-    public String toString() {
-        return "Riserve{" +
-                "id=" + id +
-                ", id_riserva=" + id_riserva +
-                ", id_squadra=" + id_squadra +
-                ", ordine_entrata=" + ordine_entrata +
-                '}';
-    }
-
     public Riserve() {
     }
 
