@@ -6,6 +6,7 @@ import com.fanta.calcetto.controllers.responses.model.GiocatoriModel;
 import com.fanta.calcetto.controllers.responses.model.TitolariModel;
 import com.fanta.calcetto.entities.*;
 import com.fanta.calcetto.services.serviceInterface.*;
+import org.hibernate.mapping.Array;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -461,6 +462,12 @@ public class MainController {
     @ResponseBody
     public void calcolaGiornata() {
         giornataService.calcolaGiornata();
+    }
+
+    @PostMapping("/giocatore/insertMassivo")
+    @ResponseBody
+        public void insertMassivo(@RequestBody Map<String, String> giocatori_valutazione) {
+        giocatoreService.insertMassivo(giocatori_valutazione);
     }
 
     @DeleteMapping("/partita/elimina/{id_partita}")

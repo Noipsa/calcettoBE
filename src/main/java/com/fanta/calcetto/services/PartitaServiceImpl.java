@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -47,7 +48,7 @@ public class PartitaServiceImpl implements PartitaService {
     @Override
     public LocalDateTime getPrimaPartitaGiornata() {
         Partita partita = partitaRepository.getFirstByDataPartitaAndGiornata(getGiornataAttuale());
-        return partita.getData_partita();
+        return partita != null ? partita.getData_partita() : LocalDateTime.now();
     }
 
     @Override

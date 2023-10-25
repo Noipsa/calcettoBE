@@ -11,12 +11,11 @@ import com.fanta.calcetto.services.serviceInterface.GiocatoreService;
 import com.fanta.calcetto.services.serviceInterface.GiornataService;
 import com.fanta.calcetto.services.serviceInterface.ValutazionePartitaService;
 import jakarta.servlet.http.Part;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class GiocatoreServiceImpl implements GiocatoreService {
@@ -88,6 +87,28 @@ public class GiocatoreServiceImpl implements GiocatoreService {
     public void eliminaGiocatore(long id) {
         Giocatore giocatore = getGiocatoreById(id);
         giocatoreRepository.delete(giocatore);
+    }
+
+    @Override
+    @Transactional
+    public void insertMassivo(Map<String, String> giocatori_valutazione) {
+        List<ValutazionePartita> valutazionePartite = new ArrayList<>();
+        List<Giocatore> giocatori = giocatoreRepository.findAll();
+
+        for (Giocatore giocatore : giocatori) {
+            String valutazione = giocatori_valutazione.get(giocatore.getId_giocatore().toString());
+            if (valutazione != null) {
+                ValutazionePartita valutazionePartita = new ValutazionePartita();
+                valutazionePartita.setId_giocatore(giocatore.getId_giocatore());
+                valutazionePartita.setId_giornata(giornataRepository.getMax());
+                valutazionePartita.setValutazione(Long.parseLong(valutazione));
+                valutazionePartite.add(valutazionePartita);
+
+                valutazionePartitaRepository.deleteByIdGiocatoreAndGiornata(giocatore.getId_giocatore(), giocatoreRepository.getMax());
+            }
+        }
+
+        valutazionePartitaRepository.saveAll(valutazionePartite);
     }
 
 

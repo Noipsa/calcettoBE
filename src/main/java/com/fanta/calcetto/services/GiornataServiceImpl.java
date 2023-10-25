@@ -57,7 +57,7 @@ public class GiornataServiceImpl implements GiornataService {
 
                     if (giocatore.getEruolo().equals("ATT")) {
                         boolean sostituito = false;
-                        sostituisciAttaccante(sostituito, riserve, giocatori, difCounter, titolare, titolariSquadraSostituzioni);
+                        sostituisciAttaccante(sostituito, riserve, giocatori, attCounter, titolare, titolariSquadraSostituzioni);
                         attCounter += 1;
                     } else if (giocatore.getEruolo().equals("DIF")) {
                         boolean sostituito = false;
@@ -131,7 +131,7 @@ public class GiornataServiceImpl implements GiornataService {
                 sostituito = true;
             } else if (riservaTrovata != null && attCounter == ordine && !sostituito && valutazionePartitaSostituto == null) {
                 attCounter += 1;
-                sostituisciDifensore(sostituito, riserve, giocatori, attCounter, titolare, titolariSquadraSostituzioni);
+                sostituisciAttaccante(sostituito, riserve, giocatori, attCounter, titolare, titolariSquadraSostituzioni);
             }
         }
     }
