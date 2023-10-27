@@ -1,12 +1,15 @@
 package com.fanta.calcetto.repository;
 
 import com.fanta.calcetto.entities.Giocatore;
+import com.fanta.calcetto.entities.ValutazionePartita;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface GiocatoreRepository extends JpaRepository<Giocatore, Long> {
@@ -19,5 +22,8 @@ public interface GiocatoreRepository extends JpaRepository<Giocatore, Long> {
 
     @Query(value = "select max(id_giocatore) from giocatore", nativeQuery = true)
     long getMax();
+
+    @Query(value = "select * from giocatore where id_squadra_ufficiale = ?1", nativeQuery = true)
+    List<Giocatore> getGiocatoriByIdSquadraUfficiale(long id);
 
 }

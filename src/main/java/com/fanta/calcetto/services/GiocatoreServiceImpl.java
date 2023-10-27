@@ -97,7 +97,7 @@ public class GiocatoreServiceImpl implements GiocatoreService {
 
         for (Giocatore giocatore : giocatori) {
             String valutazione = giocatori_valutazione.get(giocatore.getId_giocatore().toString());
-            if (valutazione != null) {
+            if (valutazione != null && !valutazione.trim().equals("-1")) {
                 ValutazionePartita valutazionePartita = new ValutazionePartita();
                 valutazionePartita.setId_giocatore(giocatore.getId_giocatore());
                 valutazionePartita.setId_giornata(giornataRepository.getMax());

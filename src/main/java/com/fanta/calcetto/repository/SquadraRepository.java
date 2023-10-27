@@ -16,6 +16,6 @@ public interface SquadraRepository extends JpaRepository<Squadra, Long> {
     Squadra prendiById(long id);
     @Modifying
     @Transactional
-    @Query(value = "update squadra set crediti_residui = ?1", nativeQuery = true)
+    @Query(value = "update squadra set crediti_residui = ?1 where numero_giocatori_acquistati = 0", nativeQuery = true)
     void insertCredito(long credito);
 }

@@ -6,7 +6,6 @@ import com.fanta.calcetto.controllers.responses.model.GiocatoriModel;
 import com.fanta.calcetto.controllers.responses.model.TitolariModel;
 import com.fanta.calcetto.entities.*;
 import com.fanta.calcetto.services.serviceInterface.*;
-import org.hibernate.mapping.Array;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -478,6 +477,15 @@ public class MainController {
         partitaService.eliminaPartita(id_partita);
     }
 
+    @GetMapping("/matchs/giocatorimatchs/{id_squadra}/{id_giornata}")
+    @ResponseBody
+    public List<ValutazioneMatchsResponse> getGiocatoriMatch(
+            @PathVariable long id_squadra,
+            @PathVariable long id_giornata
+    ) {
+        return valutazionePartitaService.getValutazioniMatchs(id_squadra, id_giornata);
+    }
+
     @GetMapping("/matchs/giocatoriPartita/{id}")
     @ResponseBody
     public GiocatoriPartitaResponse getGiocatoriPartita(
@@ -702,6 +710,15 @@ public class MainController {
             @PathVariable long id
     ) {
         utentiService.eliminaUtente(id);
+    }
+
+    @GetMapping("/giocatori/valutazione/{id}")
+    @ResponseBody
+    public List<ValutazionePartita> valutazioneGiocatorePartita(
+            @PathVariable long id
+    ) {
+
+        return valutazionePartitaService.getValutazioneByIdGiocatore(id);
     }
 
     @DeleteMapping("/giocatore/elimina/{id}")
